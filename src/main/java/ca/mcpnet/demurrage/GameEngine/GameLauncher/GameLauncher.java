@@ -6,8 +6,12 @@ import javax.swing.text.*;
 
 import java.awt.*;              //for layout managers and more
 import java.awt.event.*;        //for action events
+import java.net.ConnectException;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
+import java.net.UnknownHostException;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class GameLauncher extends JPanel
@@ -129,13 +133,15 @@ public class GameLauncher extends JPanel
         // Create the log pane
         logPane = new JTextArea();
         logPane.setEditable(false);
+        ((DefaultCaret) logPane.getCaret()).setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         logPane.append("*** Demurrage GameLauncher "+getClass().getPackage().getImplementationVersion()+" ***\n");
-        logPane.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+        JScrollPane logScrollPane = new JScrollPane(logPane);
+        logScrollPane.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 
         // Put it together        
         cardPane = new JPanel(new CardLayout());
         cardPane.add(editorScrollPane,editorPaneID);
-        cardPane.add(logPane,logPaneID);
+        cardPane.add(logScrollPane,logPaneID);
         
         add(cardPane, BorderLayout.NORTH);
         add(textControlsPane, BorderLayout.SOUTH);
@@ -176,7 +182,7 @@ public class GameLauncher extends JPanel
         	loginButton.setEnabled(false);
         	passwordField.setEnabled(false);
         	userField.setEnabled(false);
-        	appendToLog("== Beginning startup sequence ==\n");
+        	appendToLog(">> Beginning startup sequence <<	\n");
         	startLoginStep();
         	/*
             try {
@@ -204,6 +210,9 @@ public class GameLauncher extends JPanel
 		new VerifyInstallWorker(this).execute();
 	}
 	
+	public void startInstallStep() {
+		new InstallWorker(this).execute();
+	}
 	////////////////////////////
 	// Control methods
 	////////////////////////////
@@ -237,13 +246,55 @@ public class GameLauncher extends JPanel
 		_clientFilename = clientFilename;
 	}
 	
+	public String getClientFilename() {
+		return _clientFilename;
+	}
+	
 	public void appendToLog(String logline) {
 		logPane.append(logline);
 	}
 	////////////////////////////
 	// Static Methods
 	////////////////////////////
+	public static class OSNotSupported extends Exception {
+		public OSNotSupported(String OS) {
+			super(OS);
+		}
 
+		private static final long serialVersionUID = 1L;
+	}
+
+
+	public static String getAppDirectory() throws OSNotSupported
+	{
+		String OS = System.getProperty("os.name").toUpperCase();
+		if (OS.contains("WIN"))
+			return System.getenv("APPDATA");
+		else if (OS.contains("MAC"))
+			return System.getProperty("user.home") + "/Library/Application Support";
+		else if (OS.contains("NUX"))
+			return System.getProperty("user.home") + "/local";
+		throw new OSNotSupported(OS);
+	}
+	
+	public static String StringFromNetException(Exception e) {
+		if (e instanceof FileNotFoundException) {
+			return ("Unable to retrieve "+e.getMessage());
+		} else if (e instanceof UnknownHostException) {
+			return ("Unable to resolve hostname");
+		} else if  (e instanceof ConnectException) {
+			return ("Connection problem: "+e.getMessage());
+		} else if  (e instanceof ProtocolException) {
+			return ("Invalid username or password");
+		} else {
+			StringBuilder sb = new StringBuilder();
+			StackTraceElement[] st = e.getStackTrace();
+			for (StackTraceElement se : st) {
+				sb.append(se.toString()+"\n");
+			}
+			return sb.toString();
+		}
+	}
     /**
      * Create the GUI and show it.  For thread safety,
      * this method should be invoked from the
@@ -276,5 +327,6 @@ public class GameLauncher extends JPanel
             }
         });
     }
+	
 
 }

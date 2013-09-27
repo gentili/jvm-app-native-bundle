@@ -50,20 +50,8 @@ public class LoginWorker extends SwingWorker<Object, String> {
 			connection = (HttpURLConnection)url.openConnection();
 			_gl.setClientFilename(InputStreamToString((InputStream) connection.getContent()));
 			connection.disconnect();
-		} catch (FileNotFoundException e) {
-			publish("Login credentials verified\nUnable to retrieve "+e.getMessage()+"\n");
-			return null;
-		} catch (UnknownHostException e) {
-			publish("Unable to resolve hostname\n");
-			return null;
-		} catch (ConnectException e) {
-			publish("Connection problem: "+e.getMessage()+"\n");
-			return null;
-		} catch (ProtocolException e) {
-			publish("Invalid username or password\n");
-			return null;
 		} catch (Exception e) {
-			e.printStackTrace();
+			publish (_gl.StringFromNetException(e)+"\n");
 			return null;
 		}
 		_gl.setCredentials(_user,_password);
