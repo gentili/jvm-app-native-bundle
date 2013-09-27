@@ -129,7 +129,7 @@ public class GameLauncher extends JPanel
         // Create the log pane
         logPane = new JTextArea();
         logPane.setEditable(false);
-        logPane.append("*** Demurrage GameLauncher V1.0 ***\n");
+        logPane.append("*** Demurrage GameLauncher "+getClass().getPackage().getImplementationVersion()+" ***\n");
         logPane.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 
         // Put it together        
