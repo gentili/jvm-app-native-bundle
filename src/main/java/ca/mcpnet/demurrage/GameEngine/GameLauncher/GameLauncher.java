@@ -25,8 +25,11 @@ public class GameLauncher extends JPanel
 	private JButton loginButton;
 	private JTextArea logPane;
 	private JPanel cardPane;
+	
 	private String _user;
 	private String _password;
+	private String _clientVersion;
+	private String _clientFilename;
 
     public GameLauncher() {
     	
@@ -47,7 +50,7 @@ public class GameLauncher extends JPanel
         passwordFieldLabel.setLabelFor(passwordField);
 
         passwordField = new JPasswordField(10);
-        passwordField.setText("password");
+        passwordField.setText("test");
         passwordField.setActionCommand(passwordFieldString);
         passwordField.addActionListener(this);
         
@@ -145,7 +148,7 @@ public class GameLauncher extends JPanel
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         java.net.URL helpURL = null;
 		try {
-			helpURL = new URL("http://www.videogamez.ca/demurrage/launcher/news.html");
+			helpURL = new URL("http://www.videogamez.ca/demurrage/GameLauncher/news.html");
 		} catch (MalformedURLException e1) {
 			e1.printStackTrace();
 		}
@@ -224,6 +227,14 @@ public class GameLauncher extends JPanel
 	public void setCredentials(String user, String password) {
 		_user = user;
 		_password = password;
+	}
+	
+	public void setClientVersion(String clientVersion) {
+		_clientVersion = clientVersion;
+	}
+
+	public void setClientFilename(String clientFilename) {
+		_clientFilename = clientFilename;
 	}
 	
 	public void appendToLog(String logline) {
