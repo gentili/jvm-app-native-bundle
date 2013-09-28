@@ -22,7 +22,9 @@ public class InstallWorker extends SwingWorker<Object, String> {
 		_gl = gl;
 		_success = false;
 	}
-	
+	public void publish(String message) {
+		super.publish(message);
+	}
 	@Override
 	protected Object doInBackground() throws Exception {
 		publish("Downloading and Installing Game Client...\n");
@@ -32,16 +34,18 @@ public class InstallWorker extends SwingWorker<Object, String> {
 			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 			publish("Downloading "+connection.getContentLengthLong()+" bytes...\n");
 			InputStream in = (InputStream) connection.getContent();
+			ZipUtils.extract(in, new File(GameLauncher.getAppDirectory()),this);
+			/*
 			ZipInputStream zin = new ZipInputStream(in);
 			ZipEntry ze;
 			while ((ze = zin.getNextEntry()) != null) {
 				publish(ze.getName()+"\n");
 			    zin.closeEntry(); // not sure whether this is necessary
-				// publish (ze.getCompressedSize()+"\n");
 			}
 			zin.close();
+			*/
 		} catch (Exception e) {
-			publish(GameLauncher.StringFromNetException(e));
+			publish(GameLauncher.StringFromNetException(e)+"\n");
 			return null;
 		}
 		String appdir;
