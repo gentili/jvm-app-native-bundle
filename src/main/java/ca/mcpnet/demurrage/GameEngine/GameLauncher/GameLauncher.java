@@ -13,6 +13,8 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
 
 public class GameLauncher extends JPanel
                              implements ActionListener {
@@ -241,6 +243,10 @@ public class GameLauncher extends JPanel
 	public void setClientVersion(String clientVersion) {
 		_clientVersion = clientVersion;
 	}
+	
+	public String getClientVersion() {
+		return _clientVersion;
+	}
 
 	public void setClientFilename(String clientFilename) {
 		_clientFilename = clientFilename;
@@ -295,6 +301,17 @@ public class GameLauncher extends JPanel
 			return sb.toString();
 		}
 	}
+	
+	public static String InputStreamToString(InputStream is) throws IOException {
+		int c;
+		StringWriter sw = new StringWriter();
+		while ((c = is.read()) != -1) {
+			sw.append((char) c);
+		}
+		return sw.toString(); 
+	}
+
+
     /**
      * Create the GUI and show it.  For thread safety,
      * this method should be invoked from the

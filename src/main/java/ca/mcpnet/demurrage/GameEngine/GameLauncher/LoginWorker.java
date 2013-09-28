@@ -1,16 +1,10 @@
 package ca.mcpnet.demurrage.GameEngine.GameLauncher;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringWriter;
 import java.net.Authenticator;
-import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.PasswordAuthentication;
-import java.net.ProtocolException;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.List;
 
 import javax.swing.SwingWorker;
@@ -44,14 +38,14 @@ public class LoginWorker extends SwingWorker<Object, String> {
 		try {
 			URL url = new URL("http://videogamez.ca/demurrage/GameClient/VERSION.TXT");
 			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-			_gl.setClientVersion(InputStreamToString((InputStream) connection.getContent()));
+			_gl.setClientVersion(GameLauncher.InputStreamToString((InputStream) connection.getContent()));
 			connection.disconnect();
 			url = new URL("http://videogamez.ca/demurrage/GameClient/CURRENT.TXT");
 			connection = (HttpURLConnection)url.openConnection();
-			_gl.setClientFilename(InputStreamToString((InputStream) connection.getContent()));
+			_gl.setClientFilename(GameLauncher.InputStreamToString((InputStream) connection.getContent()));
 			connection.disconnect();
 		} catch (Exception e) {
-			publish (_gl.StringFromNetException(e)+"\n");
+			publish (GameLauncher.StringFromNetException(e)+"\n");
 			return null;
 		}
 		_gl.setCredentials(_user,_password);
@@ -60,15 +54,6 @@ public class LoginWorker extends SwingWorker<Object, String> {
 		return null;
 	}
 	
-	public String InputStreamToString(InputStream is) throws IOException {
-		int c;
-		StringWriter sw = new StringWriter();
-		while ((c = is.read()) != -1) {
-			sw.append((char) c);
-		}
-		return sw.toString(); 
-	}
-
 	@Override
 	protected void process(List<String> loglines) {
 		for (String logline : loglines) {

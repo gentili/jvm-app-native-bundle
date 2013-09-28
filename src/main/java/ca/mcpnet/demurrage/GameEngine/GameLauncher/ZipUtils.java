@@ -2,14 +2,11 @@ package ca.mcpnet.demurrage.GameEngine.GameLauncher;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-
-import javax.swing.SwingWorker;
 
 public class ZipUtils
 {

@@ -1,17 +1,12 @@
 package ca.mcpnet.demurrage.GameEngine.GameLauncher;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 import javax.swing.SwingWorker;
-
-import ca.mcpnet.demurrage.GameEngine.GameLauncher.GameLauncher.OSNotSupported;
 
 public class InstallWorker extends SwingWorker<Object, String> {
 
@@ -48,21 +43,7 @@ public class InstallWorker extends SwingWorker<Object, String> {
 			publish(GameLauncher.StringFromNetException(e)+"\n");
 			return null;
 		}
-		String appdir;
-		try {
-			appdir = GameLauncher.getAppDirectory();
-		} catch (OSNotSupported e) {
-			publish("Unsupported Operating System: "+e.getMessage());
-			return null;
-		}
-		/*
-		String gamedir = appdir + "/demurrage";
-		File f = new File(gamedir);
-		if (!f.exists() || !f.isDirectory()) {
-			publish("Installation not found: "+gamedir+"\n");
-			return null;			
-		}
-		*/
+		_success = true;
 		return null;
 	}
 

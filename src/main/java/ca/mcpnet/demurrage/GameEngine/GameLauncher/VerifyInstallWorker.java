@@ -1,6 +1,7 @@
 package ca.mcpnet.demurrage.GameEngine.GameLauncher;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.List;
 
 import javax.swing.SwingWorker;
@@ -31,13 +32,34 @@ public class VerifyInstallWorker extends SwingWorker<Object, String> {
 			return null;
 		}
 		String gamedir = appdir + "/demurrage";
-		File f = new File(gamedir);
-		if (!f.exists() || !f.isDirectory()) {
+		File gamedirf = new File(gamedir);
+		if (!gamedirf.exists() || !gamedirf.isDirectory()) {
 			publish("Installation not found: "+gamedir+"\n");
 			_doinstall = true;
 			return null;			
 		}
+		// Check the version file
+		File versionf = new File(gamedir,"VERSION.TXT");
+		if (!versionf.exists()) {
+			publish("No version file\n");
+			_doinstall = true;
+			return null;
+		}
+		String version;
+		try {
+			version = GameLauncher.InputStreamToString(new FileInputStream(versionf));
+		} catch (Exception e) {
+			publish(GameLauncher.StringFromNetException(e)+"\n");
+			_doinstall = true;
+			return null;
+		}
+		if (!version.equals(_gl.getClientVersion())) {
+			publish("Local version ["+version+"] != Server version ["+_gl.getClientVersion()+"]\n");
+			_doinstall = true;
+			return null;
+		}
 		publish("INCOMPLETE IMPLEMENTATION\n");
+		_success = true;
 		return null;
 	}
 
@@ -60,6 +82,6 @@ public class VerifyInstallWorker extends SwingWorker<Object, String> {
 			_gl.enableAndFocusLogin();
 			return;
 		}
-		_gl.appendToLog("Installation verified\n");
+		_gl.appendToLog("Installation verified: Client Version "+_gl.getClientVersion()+"\n");
 	}	
 }
