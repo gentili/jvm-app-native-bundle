@@ -62,5 +62,6 @@ public class InstallWorker extends SwingWorker<Object, String> {
 			return;
 		}
 		_gl.appendToLog("Installation complete\n");
+		_gl.startVerifyInstallStep();
 	}	
 }

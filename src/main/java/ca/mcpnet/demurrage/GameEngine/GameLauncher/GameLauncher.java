@@ -208,6 +208,7 @@ public class GameLauncher extends JPanel
 	private void startLoginStep() {
 		new LoginWorker(this, userField.getText(), new String(passwordField.getPassword())).execute();
 	}
+	
 	public void startVerifyInstallStep() {
 		new VerifyInstallWorker(this).execute();
 	}
@@ -215,6 +216,12 @@ public class GameLauncher extends JPanel
 	public void startInstallStep() {
 		new InstallWorker(this).execute();
 	}
+	
+	public void launchClient() {
+		appendToLog("Launching GameClient...\n");
+		
+	}
+
 	////////////////////////////
 	// Control methods
 	////////////////////////////
@@ -344,6 +351,5 @@ public class GameLauncher extends JPanel
             }
         });
     }
-	
 
 }

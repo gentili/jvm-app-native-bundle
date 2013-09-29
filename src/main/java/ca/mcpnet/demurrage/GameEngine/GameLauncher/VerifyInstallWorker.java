@@ -58,7 +58,6 @@ public class VerifyInstallWorker extends SwingWorker<Object, String> {
 			_doinstall = true;
 			return null;
 		}
-		publish("INCOMPLETE IMPLEMENTATION\n");
 		_success = true;
 		return null;
 	}
@@ -83,5 +82,6 @@ public class VerifyInstallWorker extends SwingWorker<Object, String> {
 			return;
 		}
 		_gl.appendToLog("Installation verified: Client Version "+_gl.getClientVersion()+"\n");
+		_gl.launchClient();
 	}	
 }
