@@ -38,7 +38,8 @@ public class LoginWorker extends SwingWorker<Object, String> {
 		try {
 			URL url = new URL("http://videogamez.ca/demurrage/GameClient/VERSION.TXT");
 			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-			_gl.setClientVersion(GameLauncher.InputStreamToString((InputStream) connection.getContent()));
+			String verstring = GameLauncher.InputStreamToString((InputStream) connection.getContent());
+			_gl.setClientVersion(verstring.trim());
 			connection.disconnect();
 			url = new URL("http://videogamez.ca/demurrage/GameClient/CURRENT.TXT");
 			connection = (HttpURLConnection)url.openConnection();

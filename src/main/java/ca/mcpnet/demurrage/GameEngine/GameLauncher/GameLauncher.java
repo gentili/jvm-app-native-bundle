@@ -217,9 +217,8 @@ public class GameLauncher extends JPanel
 		new InstallWorker(this).execute();
 	}
 	
-	public void launchClient() {
-		appendToLog("Launching GameClient...\n");
-		
+	public void startLaunchStep() {
+		new LaunchWorker(this).execute();
 	}
 
 	////////////////////////////

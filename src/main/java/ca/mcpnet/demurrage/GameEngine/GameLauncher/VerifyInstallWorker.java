@@ -48,6 +48,7 @@ public class VerifyInstallWorker extends SwingWorker<Object, String> {
 		String version;
 		try {
 			version = GameLauncher.InputStreamToString(new FileInputStream(versionf));
+			version = version.trim();
 		} catch (Exception e) {
 			publish(GameLauncher.StringFromNetException(e)+"\n");
 			_doinstall = true;
@@ -82,6 +83,6 @@ public class VerifyInstallWorker extends SwingWorker<Object, String> {
 			return;
 		}
 		_gl.appendToLog("Installation verified: Client Version "+_gl.getClientVersion()+"\n");
-		_gl.launchClient();
+		_gl.startLaunchStep();
 	}	
 }

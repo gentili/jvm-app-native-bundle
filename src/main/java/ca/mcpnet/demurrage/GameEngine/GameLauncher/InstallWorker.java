@@ -30,15 +30,6 @@ public class InstallWorker extends SwingWorker<Object, String> {
 			publish("Downloading "+connection.getContentLengthLong()+" bytes...\n");
 			InputStream in = (InputStream) connection.getContent();
 			ZipUtils.extract(in, new File(GameLauncher.getAppDirectory()),this);
-			/*
-			ZipInputStream zin = new ZipInputStream(in);
-			ZipEntry ze;
-			while ((ze = zin.getNextEntry()) != null) {
-				publish(ze.getName()+"\n");
-			    zin.closeEntry(); // not sure whether this is necessary
-			}
-			zin.close();
-			*/
 		} catch (Exception e) {
 			publish(GameLauncher.StringFromNetException(e)+"\n");
 			return null;
