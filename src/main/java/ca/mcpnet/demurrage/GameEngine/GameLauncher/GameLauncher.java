@@ -24,6 +24,7 @@ public class GameLauncher extends JPanel
     protected static final String userFieldString = "User";
     protected static final String passwordFieldString = "Password";
     protected static final String loginButtonString = "Login";
+    public static final String CLIENTDIR = "demurrage";
 
     private JEditorPane editorPane;
 	private JTextField userField;
@@ -244,6 +245,14 @@ public class GameLauncher extends JPanel
 	public void setCredentials(String user, String password) {
 		_user = user;
 		_password = password;
+	}
+	
+	public String getUser() {
+		return _user;
+	}
+	
+	public String getPassword() {
+		return _password;
 	}
 	
 	public void setClientVersion(String clientVersion) {

@@ -31,7 +31,7 @@ public class VerifyInstallWorker extends SwingWorker<Object, String> {
 			publish("Unsupported Operating System: "+e.getMessage());
 			return null;
 		}
-		String gamedir = appdir + "/demurrage";
+		String gamedir = appdir + "/" + GameLauncher.CLIENTDIR;
 		File gamedirf = new File(gamedir);
 		if (!gamedirf.exists() || !gamedirf.isDirectory()) {
 			publish("Installation not found: "+gamedir+"\n");
