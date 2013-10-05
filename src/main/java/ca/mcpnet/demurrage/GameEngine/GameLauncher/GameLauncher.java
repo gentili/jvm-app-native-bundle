@@ -18,6 +18,8 @@ import java.io.StringWriter;
 
 public class GameLauncher extends JPanel
                              implements ActionListener {
+	public static String VERSION;
+	
 	private static final long serialVersionUID = 1L;
 	private static final String logPaneID = "LOG";
 	private static final String editorPaneID = "EDITOR";
@@ -39,6 +41,10 @@ public class GameLauncher extends JPanel
 	private String _clientFilename;
 
     public GameLauncher() {
+		VERSION = GameLauncher.class.getPackage().getImplementationVersion();
+		if (VERSION == null) {
+			VERSION = "DEV-SNAPSHOT";
+		}
     	
     	setMinimumSize(new Dimension(640, 480));
         setLayout(new BorderLayout());
@@ -137,7 +143,7 @@ public class GameLauncher extends JPanel
         logPane = new JTextArea();
         logPane.setEditable(false);
         ((DefaultCaret) logPane.getCaret()).setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-        logPane.append("*** Demurrage GameLauncher "+getClass().getPackage().getImplementationVersion()+" ***\n");
+        logPane.append("*** Demurrage GameLauncher "+VERSION+" ***\n");
         JScrollPane logScrollPane = new JScrollPane(logPane);
         logScrollPane.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 
