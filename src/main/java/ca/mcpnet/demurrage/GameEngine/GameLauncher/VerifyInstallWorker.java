@@ -46,13 +46,18 @@ public class VerifyInstallWorker extends SwingWorker<Object, String> {
 			return null;
 		}
 		String version;
+		FileInputStream fis = null;
 		try {
-			version = GameLauncher.InputStreamToString(new FileInputStream(versionf));
+			fis = new FileInputStream(versionf);
+			version = GameLauncher.InputStreamToString(fis);
 			version = version.trim();
 		} catch (Exception e) {
 			publish(GameLauncher.StringFromNetException(e)+"\n");
 			_doinstall = true;
 			return null;
+		} finally {
+			if (fis != null)
+				fis.close();
 		}
 		if (!version.equals(_gl.getClientVersion())) {
 			publish("Local version ["+version+"] != Server version ["+_gl.getClientVersion()+"]\n");
