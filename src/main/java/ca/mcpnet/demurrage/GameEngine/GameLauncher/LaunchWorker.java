@@ -35,11 +35,13 @@ public class LaunchWorker extends SwingWorker<Object, String> {
 		env.put("LAUNCHER", "true");
 		env.put("USER", _gl.getUser());
 		env.put("PASSWORD", _gl.getPassword());
+		/*
 		for (Entry<String, String> itr : env.entrySet()) {
 			String key = itr.getKey();
 			String value = itr.getValue();
 			publish(key+"="+value+"\n");
 		}
+		*/
 		pb.directory(new File(GameLauncher.getAppDirectory(),GameLauncher.CLIENTDIR));
 		pb.redirectErrorStream(true);
 		try {
