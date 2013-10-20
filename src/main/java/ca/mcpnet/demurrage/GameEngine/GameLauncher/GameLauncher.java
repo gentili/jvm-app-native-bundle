@@ -21,17 +21,20 @@ public class GameLauncher extends JPanel
 	public static String VERSION;
 	
 	private static final long serialVersionUID = 1L;
-	private static final String logPaneID = "LOG";
-	private static final String editorPaneID = "EDITOR";
     protected static final String userFieldString = "User";
     protected static final String passwordFieldString = "Password";
     protected static final String loginButtonString = "Login";
-    public static final String CLIENTDIR = "demurrage";
 
-    private JEditorPane editorPane;
+    private static final String logPaneID = "LOG";
+	private static final String newsPaneID = "NEWS";
+
+	public static final String CLIENTDIR = "demurrage";
+
 	private JTextField userField;
 	private JPasswordField passwordField;
 	private JButton loginButton;
+
+	private JEditorPane newsPane;
 	private JTextArea logPane;
 	private JPanel cardPane;
 	
@@ -56,6 +59,7 @@ public class GameLauncher extends JPanel
         userField = new JTextField(10);
         userField.setText("test");
         userField.setActionCommand(userFieldString);
+        userField.setEnabled(false);
         userField.addActionListener(this);
 
         //Create a password field.
@@ -65,6 +69,7 @@ public class GameLauncher extends JPanel
         passwordField = new JPasswordField(10);
         passwordField.setText("test");
         passwordField.setActionCommand(passwordFieldString);
+        passwordField.setEnabled(false);
         passwordField.addActionListener(this);
         
         //Create the login button
@@ -80,6 +85,7 @@ public class GameLauncher extends JPanel
                         KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, true)),
                         KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, true),
                         JComponent.WHEN_FOCUSED);
+        loginButton.setEnabled(false);
         loginButton.addActionListener(this);
 
         //Load the logo
@@ -133,8 +139,8 @@ public class GameLauncher extends JPanel
         textControlsPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         
         //Create an editor pane.
-        editorPane = createEditorPane();
-        JScrollPane editorScrollPane = new JScrollPane(editorPane);
+        newsPane = createEditorPane();
+        JScrollPane editorScrollPane = new JScrollPane(newsPane);
         editorScrollPane.setVerticalScrollBarPolicy(
                         JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         editorScrollPane.setPreferredSize(new Dimension(640, 480));
@@ -149,11 +155,11 @@ public class GameLauncher extends JPanel
 
         // Put it together        
         cardPane = new JPanel(new CardLayout());
-        cardPane.add(editorScrollPane,editorPaneID);
         cardPane.add(logScrollPane,logPaneID);
+        cardPane.add(editorScrollPane,newsPaneID);
         
         add(cardPane, BorderLayout.NORTH);
-        add(textControlsPane, BorderLayout.SOUTH);
+        add(textControlsPane, BorderLayout.SOUTH);        
     }
     
     private JEditorPane createEditorPane() {
@@ -212,6 +218,10 @@ public class GameLauncher extends JPanel
 	////////////////////////////
     // Startup Sequence Steps
 	////////////////////////////
+    private void startVerifyLauncherStep() {
+		new VerifyLauncherWorker(this).execute();
+    }
+    
 	private void startLoginStep() {
 		new LoginWorker(this, userField.getText(), new String(passwordField.getPassword())).execute();
 	}
@@ -242,6 +252,11 @@ public class GameLauncher extends JPanel
 	private void switchToLogPane() {
 		CardLayout cardLayout = (CardLayout) cardPane.getLayout();
 		cardLayout.show(cardPane, logPaneID);
+	}
+	
+	public void switchToNewsPane() {
+		CardLayout cardLayout = (CardLayout) cardPane.getLayout();
+		cardLayout.show(cardPane, newsPaneID);		
 	}
 
 	private void setDefaultFocus() {
@@ -352,6 +367,7 @@ public class GameLauncher extends JPanel
         gl.setDefaultFocus();
         frame.setResizable(false);
         frame.setVisible(true);
+        gl.startVerifyLauncherStep();
     }
 
 	public static void main(String[] args) {
