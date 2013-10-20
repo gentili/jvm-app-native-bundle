@@ -1,10 +1,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  <groupId>ca.mcpnet.demurrage</groupId>
   <artifactId>GameLauncher</artifactId>
   <name>Demurrage Game Launcher</name>
   <version>1.0.0</version>
+  <properties>
+    <releaseName>${project.build.finalName}.jar</releaseName>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
   <build>
   	<plugins>
+  		<plugin>
+  			<groupId>org.apache.maven.plugins</groupId>
+        	<artifactId>maven-compiler-plugin</artifactId>
+        	<version>2.3.2</version>
+        	<configuration>
+        		<source>1.7</source>
+        		<target>1.7</target>
+        	</configuration>
+  		</plugin>
   		<plugin>
   			<groupId>org.apache.maven.plugins</groupId>
   			<artifactId>maven-jar-plugin</artifactId>
@@ -13,16 +27,32 @@
   				<archive>
   					<manifest>
   						<mainClass>ca.mcpnet.demurrage.GameEngine.GameLauncher.GameLauncher</mainClass>
+                        <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                        <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
   					</manifest>
   				</archive>
   			</configuration>
   		</plugin>
+        <plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <version>2.4</version>
+            <executions>
+                <execution>
+                    <id>assemble-release-scripts</id>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>single</goal>
+                    </goals>
+                    <configuration>
+                        <finalName>releasescripts</finalName>
+                        <appendAssemblyId>false</appendAssemblyId>
+                        <descriptors>
+                            <descriptor>src/assemble/releasescripts.xml</descriptor>
+                        </descriptors>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
   	</plugins>
   </build>
-  <parent>
-  	<groupId>ca.mcpnet.demurrage</groupId>
-  	<artifactId>GameEngine</artifactId>
-  	<version>0.1.0-SNAPSHOT</version>
-  	<relativePath>../GameEngine</relativePath>
-  </parent>
 </project>
