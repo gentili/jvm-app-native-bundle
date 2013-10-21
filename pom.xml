@@ -3,7 +3,7 @@
   <groupId>ca.mcpnet.demurrage</groupId>
   <artifactId>GameLauncher</artifactId>
   <name>Demurrage Game Launcher</name>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <properties>
     <releaseName>${project.build.finalName}.jar</releaseName>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
