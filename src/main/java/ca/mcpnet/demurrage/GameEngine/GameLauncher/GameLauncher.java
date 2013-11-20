@@ -1,8 +1,15 @@
 package ca.mcpnet.demurrage.GameEngine.GameLauncher;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.text.*;
+import javax.xml.bind.DatatypeConverter;
 
 import java.awt.*;              //for layout managers and more
 import java.awt.event.*;        //for action events
@@ -11,11 +18,18 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Properties;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 
 public class GameLauncher extends JPanel
                              implements ActionListener {
@@ -277,10 +291,37 @@ public class GameLauncher extends JPanel
 		_user = user;
 		_password = password;
 	}
+
+	private static String strkey = "demurrage";
 	
-	public void storeCredentials() {
-		Properties props = new Properties();
+	public String encrypt(String data) throws UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException {
+		byte[] iv = { 0, 0, 0, 0, 0, 0, 0, 0 };
+		IvParameterSpec ivspec = new IvParameterSpec(iv);
+		SecretKeySpec key = new SecretKeySpec(strkey.getBytes("UTF8"),"Blowfish");
+		Cipher cipher = Cipher.getInstance("Blowfish/CBC/PKCS5Padding");
+		cipher.init(Cipher.ENCRYPT_MODE, key, ivspec);
 		
+		return DatatypeConverter.printBase64Binary(cipher.doFinal(data.getBytes("UTF8")));
+	}
+	
+	public String decrypt(String data) throws InvalidKeyException, UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException {
+		byte[] iv = { 0, 0, 0, 0, 0, 0, 0, 0 };
+		IvParameterSpec ivspec = new IvParameterSpec(iv);
+		SecretKeySpec key = new SecretKeySpec(strkey.getBytes("UTF8"),"Blowfish");
+		Cipher cipher = Cipher.getInstance("Blowfish/CBC/PKCS5Padding");
+		cipher.init(Cipher.DECRYPT_MODE, key, ivspec);
+		
+		return new String(cipher.doFinal(DatatypeConverter.parseBase64Binary(data)));
+	}
+	
+	public void storeCredentials() throws Exception {
+		Properties props = new Properties();
+		props.setProperty("auth1", decrypt(encrypt(_user)));
+		props.setProperty("auth2", encrypt(_password));
+		File f = new File(_clientDir,"auth.prop");
+		OutputStream out = new FileOutputStream(f);
+		props.store(out, " Demurrage secure auth storage");
+		out.close();
 	}
 	
 	public String getUser() {
