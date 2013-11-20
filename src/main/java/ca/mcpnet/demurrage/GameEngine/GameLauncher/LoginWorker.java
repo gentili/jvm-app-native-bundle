@@ -1,5 +1,6 @@
 package ca.mcpnet.demurrage.GameEngine.GameLauncher;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.Authenticator;
 import java.net.HttpURLConnection;
@@ -50,7 +51,12 @@ public class LoginWorker extends SwingWorker<Object, String> {
 			return null;
 		}
 		_gl.setCredentials(_user,_password);
-		_gl.storeCredentials();
+		try {
+			_gl.storeCredentials();
+		} catch (Exception e) {
+			publish("Error storing encrypted auth: "+e.getClass()+":"+e.getMessage()+"\n");
+			return null;
+		}
 				
 		_success = true;
 		return null;

@@ -23,6 +23,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Properties;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -64,7 +65,7 @@ public class GameLauncher extends JPanel
 		if (VERSION == null) {
 			VERSION = "DEV-SNAPSHOT";
 		}
-    	
+		    	
     	setMinimumSize(new Dimension(640, 480));
         setLayout(new BorderLayout());
 
@@ -73,7 +74,7 @@ public class GameLauncher extends JPanel
         userFieldLabel.setLabelFor(userField);
         
         userField = new JTextField(10);
-        userField.setText("test");
+        userField.setText("");
         userField.setActionCommand(userFieldString);
         userField.setEnabled(false);
         userField.addActionListener(this);
@@ -83,7 +84,7 @@ public class GameLauncher extends JPanel
         passwordFieldLabel.setLabelFor(passwordField);
 
         passwordField = new JPasswordField(10);
-        passwordField.setText("test");
+        passwordField.setText("");
         passwordField.setActionCommand(passwordFieldString);
         passwordField.setEnabled(false);
         passwordField.addActionListener(this);
@@ -291,32 +292,35 @@ public class GameLauncher extends JPanel
 		_user = user;
 		_password = password;
 	}
-
-	private static String strkey = "demurrage";
 	
-	public String encrypt(String data) throws UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException {
-		byte[] iv = { 0, 0, 0, 0, 0, 0, 0, 0 };
-		IvParameterSpec ivspec = new IvParameterSpec(iv);
-		SecretKeySpec key = new SecretKeySpec(strkey.getBytes("UTF8"),"Blowfish");
-		Cipher cipher = Cipher.getInstance("Blowfish/CBC/PKCS5Padding");
-		cipher.init(Cipher.ENCRYPT_MODE, key, ivspec);
-		
-		return DatatypeConverter.printBase64Binary(cipher.doFinal(data.getBytes("UTF8")));
-	}
-	
-	public String decrypt(String data) throws InvalidKeyException, UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException {
-		byte[] iv = { 0, 0, 0, 0, 0, 0, 0, 0 };
-		IvParameterSpec ivspec = new IvParameterSpec(iv);
-		SecretKeySpec key = new SecretKeySpec(strkey.getBytes("UTF8"),"Blowfish");
-		Cipher cipher = Cipher.getInstance("Blowfish/CBC/PKCS5Padding");
-		cipher.init(Cipher.DECRYPT_MODE, key, ivspec);
-		
-		return new String(cipher.doFinal(DatatypeConverter.parseBase64Binary(data)));
+	public void loadCredentials() {
+		Properties props = new Properties();
+		FileInputStream in = null;
+		try {
+			File f = new File(_clientDir,"auth.prop");
+			in = new FileInputStream(f);
+			props.load(in);
+			if (props.containsKey("auth1"))
+				_user = decrypt(props.getProperty("auth1"));
+			if (props.containsKey("auth2"))
+				_password = decrypt(props.getProperty("auth2"));
+			userField.setText(_user);
+			passwordField.setText(_password);
+		} catch (Exception e) {
+			// Ignore, go forward with empty credentials
+		} finally {
+			if (in != null)
+				try {
+					in.close();
+				} catch (IOException e) {
+					// Ignore
+				}
+		}
 	}
 	
 	public void storeCredentials() throws Exception {
 		Properties props = new Properties();
-		props.setProperty("auth1", decrypt(encrypt(_user)));
+		props.setProperty("auth1", encrypt(_user));
 		props.setProperty("auth2", encrypt(_password));
 		File f = new File(_clientDir,"auth.prop");
 		OutputStream out = new FileOutputStream(f);
@@ -401,6 +405,27 @@ public class GameLauncher extends JPanel
 			sw.append((char) c);
 		}
 		return sw.toString(); 
+	}
+
+	private static String _strkey = "demurrage";
+	private static byte[] _iv = { 0, 0, 0, 0, 0, 0, 0, 0 };
+	
+	public static String encrypt(String data) throws UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException {
+		IvParameterSpec ivspec = new IvParameterSpec(_iv);
+		SecretKeySpec key = new SecretKeySpec(_strkey.getBytes("UTF8"),"Blowfish");
+		Cipher cipher = Cipher.getInstance("Blowfish/CBC/PKCS5Padding");
+		cipher.init(Cipher.ENCRYPT_MODE, key, ivspec);
+		
+		return DatatypeConverter.printBase64Binary(cipher.doFinal(data.getBytes("UTF8")));
+	}
+	
+	public static String decrypt(String data) throws InvalidKeyException, UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException {
+		IvParameterSpec ivspec = new IvParameterSpec(_iv);
+		SecretKeySpec key = new SecretKeySpec(_strkey.getBytes("UTF8"),"Blowfish");
+		Cipher cipher = Cipher.getInstance("Blowfish/CBC/PKCS5Padding");
+		cipher.init(Cipher.DECRYPT_MODE, key, ivspec);
+		
+		return new String(cipher.doFinal(DatatypeConverter.parseBase64Binary(data)));
 	}
 
 

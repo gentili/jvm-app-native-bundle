@@ -33,7 +33,7 @@ public class VerifyLauncherWorker extends SwingWorker<Object, String> {
 			_failureMessage = "*** Unsupported Operating System! ***\nThis game requires OSX, Linux, or Windows";
 			return null;
 		}
-
+		_gl.loadCredentials();
 		String version;
 		if (GameLauncher.VERSION.equals("DEV-SNAPSHOT")) {
 			publish("Development GameLauncher detected\nskipping verification\n");
