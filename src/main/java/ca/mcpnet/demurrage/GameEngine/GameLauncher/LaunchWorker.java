@@ -41,7 +41,7 @@ public class LaunchWorker extends SwingWorker<Object, String> {
 			publish(key+"="+value+"\n");
 		}
 		*/
-		pb.directory(new File(GameLauncher.getAppDirectory(),GameLauncher.CLIENTDIR));
+		pb.directory(new File(_gl.getClientDir()));
 		pb.redirectErrorStream(true);
 		try {
 			Process p = pb.start();

@@ -8,6 +8,8 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
+import ca.mcpnet.demurrage.GameEngine.GameLauncher.GameLauncher.OSNotSupported;
+
 public class VerifyLauncherWorker extends SwingWorker<Object, String> {
 	
 	private GameLauncher _gl;
@@ -23,6 +25,15 @@ public class VerifyLauncherWorker extends SwingWorker<Object, String> {
 	@Override
 	protected String doInBackground() throws Exception {
 		publish("Verifying GameLauncher...\n");
+
+		try {
+			_gl.setClientDir();
+		} catch (OSNotSupported e) {
+			publish("Unsupported Operating System: "+e.getMessage()+"\n");
+			_failureMessage = "*** Unsupported Operating System! ***\nThis game requires OSX, Linux, or Windows";
+			return null;
+		}
+
 		String version;
 		if (GameLauncher.VERSION.equals("DEV-SNAPSHOT")) {
 			publish("Development GameLauncher detected\nskipping verification\n");
@@ -60,7 +71,7 @@ public class VerifyLauncherWorker extends SwingWorker<Object, String> {
 	@Override
 	protected void done() {
 		if (!_success) {
-			_gl.appendToLog(">> Verification and Retrieval failed <<\n");
+			_gl.appendToLog(">> Verification failed <<\n");
 			JOptionPane.showMessageDialog(_gl, _failureMessage, "GameLauncher Error", JOptionPane.ERROR_MESSAGE);
 			System.exit(1);
 			return;

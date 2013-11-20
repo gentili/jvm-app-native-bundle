@@ -11,6 +11,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.Properties;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,6 +39,7 @@ public class GameLauncher extends JPanel
 	private JTextArea logPane;
 	private JPanel cardPane;
 	
+	private String _clientDir;
 	private String _user;
 	private String _password;
 	private String _clientVersion;
@@ -262,10 +264,23 @@ public class GameLauncher extends JPanel
 	private void setDefaultFocus() {
 		userField.requestFocusInWindow();
 	}
+	
+	public void setClientDir() throws OSNotSupported {
+		_clientDir = GameLauncher.getAppDirectory() + "/" + GameLauncher.CLIENTDIR;		
+	}
+	
+	public String getClientDir() {
+		return _clientDir;
+	}
 
 	public void setCredentials(String user, String password) {
 		_user = user;
 		_password = password;
+	}
+	
+	public void storeCredentials() {
+		Properties props = new Properties();
+		
 	}
 	
 	public String getUser() {

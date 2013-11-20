@@ -23,15 +23,7 @@ public class VerifyInstallWorker extends SwingWorker<Object, String> {
 	@Override
 	protected Object doInBackground() throws Exception {
 		publish("Verifying local installation...\n");
-		// Check for filesystem directory
-		String appdir;
-		try {
-			appdir = GameLauncher.getAppDirectory();
-		} catch (OSNotSupported e) {
-			publish("Unsupported Operating System: "+e.getMessage());
-			return null;
-		}
-		String gamedir = appdir + "/" + GameLauncher.CLIENTDIR;
+		String gamedir = _gl.getClientDir();
 		File gamedirf = new File(gamedir);
 		if (!gamedirf.exists() || !gamedirf.isDirectory()) {
 			publish("Installation not found: "+gamedir+"\n");

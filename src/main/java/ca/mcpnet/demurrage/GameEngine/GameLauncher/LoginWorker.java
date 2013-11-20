@@ -50,6 +50,7 @@ public class LoginWorker extends SwingWorker<Object, String> {
 			return null;
 		}
 		_gl.setCredentials(_user,_password);
+		_gl.storeCredentials();
 				
 		_success = true;
 		return null;
