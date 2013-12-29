@@ -6,8 +6,6 @@ import java.util.List;
 
 import javax.swing.SwingWorker;
 
-import ca.mcpnet.demurrage.GameEngine.GameLauncher.GameLauncher.OSNotSupported;
-
 public class VerifyInstallWorker extends SwingWorker<Object, String> {
 
 	private GameLauncher _gl;

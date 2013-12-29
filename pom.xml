@@ -56,4 +56,12 @@
         </plugin>
   	</plugins>
   </build>
+  <dependencies>
+  	<dependency>
+  		<groupId>com.akathist.maven.plugins.launch4j</groupId>
+  		<artifactId>launch4j-maven-plugin</artifactId>
+  		<version>1.5.2</version>
+  		<type>maven-plugin</type>
+  	</dependency>
+  </dependencies>
 </project>

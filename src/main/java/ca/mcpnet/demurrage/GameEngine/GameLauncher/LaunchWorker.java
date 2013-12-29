@@ -34,6 +34,8 @@ public class LaunchWorker extends SwingWorker<Object, String> {
 		env.put("LAUNCHER", "true");
 		env.put("USER", _gl.getUser());
 		env.put("PASSWORD", _gl.getPassword());
+		env.put("SERVERADDR", "127.0.0.1");
+		env.put("SERVERPORT", "1234");
 		/*
 		for (Entry<String, String> itr : env.entrySet()) {
 			String key = itr.getKey();
