@@ -6,7 +6,9 @@
   <version>1.0.1</version>
   <properties>
     <releaseName>${project.build.finalName}.jar</releaseName>
+    <exeName>${project.build.finalName}.exe</exeName>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  	<mainClass>ca.mcpnet.demurrage.GameEngine.GameLauncher.GameLauncher</mainClass>
   </properties>
   <build>
   	<plugins>
@@ -26,7 +28,7 @@
   			<configuration>
   				<archive>
   					<manifest>
-  						<mainClass>ca.mcpnet.demurrage.GameEngine.GameLauncher.GameLauncher</mainClass>
+  						<mainClass>${mainClass}</mainClass>
                         <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                         <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
   					</manifest>
@@ -50,6 +52,47 @@
                         <descriptors>
                             <descriptor>src/assemble/releasescripts.xml</descriptor>
                         </descriptors>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+        <plugin>
+            <groupId>com.akathist.maven.plugins.launch4j</groupId>
+            <artifactId>launch4j-maven-plugin</artifactId>
+            <version>1.5.2</version>
+            <executions>
+                <execution>
+                    <id>l4j-clui</id>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>launch4j</goal>
+                    </goals>
+                    <configuration>
+                        <headerType>gui</headerType>
+                        <jar>${project.build.directory}/${releaseName}</jar>
+                        <outfile>${project.build.directory}/${exeName}</outfile>
+                        <downloadUrl>http://videogamez.ca/</downloadUrl>
+                        <classPath>
+                            <mainClass>${mainClass}</mainClass>
+                            <preCp>anything</preCp>
+                        </classPath>
+                        <icon>src/main/resources/stars.ico</icon>
+                        <jre>
+                            <minVersion>1.6.0</minVersion>
+                            <jdkPreference>preferJre</jdkPreference>
+                        </jre>
+                        <versionInfo>
+                            <fileVersion>${project.version}.0</fileVersion>
+                            <txtFileVersion>${project.version}.0</txtFileVersion>
+                            <fileDescription>${project.name}</fileDescription>
+                            <copyright>2014 Master Control Productions</copyright>
+                            <productVersion>${project.version}.0</productVersion>
+                            <txtProductVersion>${project.version}.0</txtProductVersion>
+                            <productName>${project.name}</productName>
+                            <companyName>Master Control Productions</companyName>
+                            <internalName>gameLauncher</internalName>
+                            <originalFilename>${exeName}</originalFilename>
+                        </versionInfo>
                     </configuration>
                 </execution>
             </executions>
