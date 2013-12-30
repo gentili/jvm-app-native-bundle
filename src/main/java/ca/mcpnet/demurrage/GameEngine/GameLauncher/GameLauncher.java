@@ -428,7 +428,16 @@ public class GameLauncher extends JPanel
 		return new String(cipher.doFinal(DatatypeConverter.parseBase64Binary(data)));
 	}
 
-
+	public static ImageIcon loadImageIcon(String path) {
+		ImageIcon imageIcon;
+        java.net.URL imgURL = GameLauncher.class.getResource(path);
+        if (imgURL != null) {
+            imageIcon = new ImageIcon(imgURL);
+        } else {
+        	throw new RuntimeException("Could not load :"+path);
+        }
+        return imageIcon;
+	}
     /**
      * Create the GUI and show it.  For thread safety,
      * this method should be invoked from the
@@ -448,6 +457,7 @@ public class GameLauncher extends JPanel
         gl.setDefaultFocus();
         frame.setResizable(false);
         frame.setVisible(true);
+        frame.setIconImage(loadImageIcon("/stars.png").getImage());
         gl.startVerifyLauncherStep();
     }
 
