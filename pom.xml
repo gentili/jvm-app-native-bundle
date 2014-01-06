@@ -7,6 +7,7 @@
   <properties>
     <releaseName>${project.build.finalName}.jar</releaseName>
     <exeName>${project.build.finalName}.exe</exeName>
+    <appName>${project.build.finalName}.app</appName>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   	<mainClass>ca.mcpnet.demurrage.GameEngine.GameLauncher.GameLauncher</mainClass>
   </properties>
@@ -61,7 +62,7 @@
                         <goal>single</goal>
                     </goals>
                     <configuration>
-                        <finalName>DemurrageLauncher.app</finalName>
+                        <finalName>${appName}</finalName>
                         <appendAssemblyId>false</appendAssemblyId>
                         <attach>false</attach>
                         <descriptors>

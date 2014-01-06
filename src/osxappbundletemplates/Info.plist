@@ -5,7 +5,7 @@
     <key>CFBundleName</key>
     <string>Demurrage Game Launcher</string>
     <key>CFBundleVersion</key>
-    <string>1.0.1</string>
+    <string>${project.version}</string>
     <key>CFBundleAllowMixedLocalizations</key>
     <string>true</string>
     <key>CFBundleExecutable</key>
