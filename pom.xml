@@ -54,6 +54,21 @@
                         </descriptors>
                     </configuration>
                 </execution>
+                <execution>
+                    <id>osxappbundle</id>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>single</goal>
+                    </goals>
+                    <configuration>
+                        <finalName>DemurrageLauncher.app</finalName>
+                        <appendAssemblyId>false</appendAssemblyId>
+                        <attach>false</attach>
+                        <descriptors>
+                            <descriptor>src/assemble/osxappbundle.xml</descriptor>
+                        </descriptors>
+                    </configuration>
+                </execution>
             </executions>
         </plugin>
         <plugin>
@@ -100,11 +115,5 @@
   	</plugins>
   </build>
   <dependencies>
-  	<dependency>
-  		<groupId>com.akathist.maven.plugins.launch4j</groupId>
-  		<artifactId>launch4j-maven-plugin</artifactId>
-  		<version>1.5.2</version>
-  		<type>maven-plugin</type>
-  	</dependency>
   </dependencies>
 </project>
