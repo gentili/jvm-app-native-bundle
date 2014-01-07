@@ -19,6 +19,6 @@
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleIconFile</key>
-    <string>GenericJavaApp.icns</string>
+    <string>stars.icns</string>
   </dict>
 </plist>

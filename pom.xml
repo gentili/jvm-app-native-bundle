@@ -5,7 +5,7 @@
   <name>Demurrage Game Launcher</name>
   <version>1.0.1</version>
   <properties>
-    <releaseName>${project.build.finalName}.jar</releaseName>
+    <jarName>${project.build.finalName}.jar</jarName>
     <exeName>${project.build.finalName}.exe</exeName>
     <appName>${project.build.finalName}.app</appName>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -85,7 +85,7 @@
                     </goals>
                     <configuration>
                         <headerType>gui</headerType>
-                        <jar>${project.build.directory}/${releaseName}</jar>
+                        <jar>${project.build.directory}/${jarName}</jar>
                         <outfile>${project.build.directory}/${exeName}</outfile>
                         <downloadUrl>http://videogamez.ca/</downloadUrl>
                         <classPath>
