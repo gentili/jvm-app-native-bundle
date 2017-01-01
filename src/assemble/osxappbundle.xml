@@ -10,23 +10,23 @@
     <file>
         <source>target/${jarName}</source>
         <destName>${jarName}</destName>
-        <outputDirectory>Contents/Resources/Java</outputDirectory>
+        <outputDirectory>DemurrageLauncher.app/Contents/Resources/Java</outputDirectory>
     </file>
     <file>
       <source>src/osxappbundletemplates/Info.plist</source>
-      <outputDirectory>Contents</outputDirectory>
+      <outputDirectory>DemurrageLauncher.app/Contents</outputDirectory>
       <fileMode>0744</fileMode>
       <filtered>true</filtered>
     </file>
     <file>
       <source>src/osxappbundletemplates/launch.sh</source>
-      <outputDirectory>Contents/MacOS</outputDirectory>
+      <outputDirectory>DemurrageLauncher.app/Contents/MacOS</outputDirectory>
       <fileMode>0555</fileMode>
       <filtered>true</filtered>
     </file>
     <file>
       <source>src/main/resources/stars.icns</source>
-      <outputDirectory>Contents/Resources</outputDirectory>
+      <outputDirectory>DemurrageLauncher.app/Contents/Resources</outputDirectory>
       <fileMode>0744</fileMode>
       <filtered>false</filtered>
     </file>

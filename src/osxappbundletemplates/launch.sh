@@ -1,3 +1,3 @@
 #!/bin/bash
 cd "${0%/*}"
-java -jar ../Resources/Java/${jarName}
+java -Xdock:icon=../Resources/stars.icns -jar ../Resources/Java/${jarName}
