@@ -1,4 +1,4 @@
-package ca.mcpnet.demurrage.GameEngine.GameLauncher;
+package ca.mcpnet.sample.appbundle;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
@@ -11,7 +11,7 @@ public class ImagePanel extends JPanel {
 	private ImageIcon imageIcon;
 	
 	public ImagePanel(String path) {
-        java.net.URL imgURL = GameLauncher.class.getResource(path);
+        java.net.URL imgURL = SampleApp.class.getResource(path);
         if (imgURL != null) {
             imageIcon = new ImageIcon(imgURL);
         } else {

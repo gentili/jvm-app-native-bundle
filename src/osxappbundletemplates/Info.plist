@@ -3,7 +3,7 @@
 <plist version="0.9">
   <dict>
     <key>CFBundleName</key>
-    <string>Demurrage Game Launcher</string>
+    <string>Sample App</string>
     <key>CFBundleVersion</key>
     <string>${project.version}</string>
     <key>CFBundleAllowMixedLocalizations</key>

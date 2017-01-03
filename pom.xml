@@ -1,15 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>ca.mcpnet.demurrage</groupId>
-  <artifactId>GameLauncher</artifactId>
-  <name>Demurrage Game Launcher</name>
+  <artifactId>SampleApp</artifactId>
+  <name>Sample App</name>
   <version>1.0.1</version>
   <properties>
     <jarName>${project.build.finalName}.jar</jarName>
     <exeName>${project.build.finalName}.exe</exeName>
     <appName>${project.build.finalName}.app</appName>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  	<mainClass>ca.mcpnet.demurrage.GameEngine.GameLauncher.GameLauncher</mainClass>
+  	<mainClass>ca.mcpnet.sample.appbundle.SampleApp</mainClass>
   </properties>
   <build>
   	<plugins>
@@ -106,7 +106,7 @@
                             <txtProductVersion>${project.version}.0</txtProductVersion>
                             <productName>${project.name}</productName>
                             <companyName>Master Control Productions</companyName>
-                            <internalName>gameLauncher</internalName>
+                            <internalName>sampleApp</internalName>
                             <originalFilename>${exeName}</originalFilename>
                         </versionInfo>
                     </configuration>
