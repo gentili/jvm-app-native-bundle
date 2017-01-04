@@ -41,21 +41,6 @@
             <version>2.4</version>
             <executions>
                 <execution>
-                    <id>assemble-release-scripts</id>
-                    <phase>package</phase>
-                    <goals>
-                        <goal>single</goal>
-                    </goals>
-                    <configuration>
-                        <finalName>releasescripts</finalName>
-                        <appendAssemblyId>false</appendAssemblyId>
-                        <attach>false</attach>
-                        <descriptors>
-                            <descriptor>src/assemble/releasescripts.xml</descriptor>
-                        </descriptors>
-                    </configuration>
-                </execution>
-                <execution>
                     <id>osxappbundle</id>
                     <phase>package</phase>
                     <goals>
@@ -75,7 +60,7 @@
         <plugin>
             <groupId>com.akathist.maven.plugins.launch4j</groupId>
             <artifactId>launch4j-maven-plugin</artifactId>
-            <version>1.5.2</version>
+            <version>1.7.15</version>
             <executions>
                 <execution>
                     <id>l4j-clui</id>
